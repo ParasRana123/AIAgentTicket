@@ -8,7 +8,7 @@ export const signup = async (req , res) => {
     const hashed = bcrypt.hash(password , 10);
     const user = await User.create({email , password: hashed , skills});
 
-    // Fire the inngest event\
+    // Fire the inngest event
     await inngest.send({
         name: "user/signup",
         data: {
@@ -16,7 +16,7 @@ export const signup = async (req , res) => {
         }
     })
 
-    // Logging th signup user
+    // Logging the signup user
     const token = jwt.sign({ __id: user._id , role: user.role } , process.env.JWT_SECRET);
     res.json({user , token});
 
@@ -41,7 +41,7 @@ export const login = async (req , res) => {
             return res.status(401).json({ error: "Invalid Credentials" });
         }
 
-        // Logging th logged in user
+        // Logging the logged in user
         const token = jwt.sign({ __id: user._id , role: user.role } , process.env.JWT_SECRET);
         res.json({user , token});
 
