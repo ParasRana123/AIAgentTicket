@@ -16,12 +16,34 @@ export const signup = async (req , res) => {
         }
     })
 
-    // Logging th eisgnup user
+    // Logging th signup user
     const token = jwt.sign({ __id: user._id , role: user.role } , process.env.JWT_SECRET);
-
     res.json({user , token});
 
     try {
+
+    } catch(error) {
+        res.status(500).json({
+            error: "SignUp failed",
+            details: error.message
+        })
+    }
+}
+
+export const login = async (req , res) => {
+    const {email , password} = req.body;
+    try {
+        const user = User.findOne({email});
+        if(!user) return res.status(401).json({ error: "No users found." });
+        const isMatch = await bcrypt.compare(password , user.password); 
+
+        if(!isMatch) {
+            return res.status(401).json({ error: "Invalid Credentials" });
+        }
+
+        // Logging th logged in user
+        const token = jwt.sign({ __id: user._id , role: user.role } , process.env.JWT_SECRET);
+        res.json({user , token});
 
     } catch(error) {
         res.status(500).json({
