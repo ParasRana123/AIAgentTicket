@@ -8,6 +8,9 @@ import {inngest} from "./inngest/client";
 import { onUserSignUp } from "./inngest/functions/on-signup";
 import { onTicketCreated } from "./inngest/functions/on-create-ticket";
 
+import dotenv from "dotenv";
+dotenv.config();
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 
