@@ -28,7 +28,27 @@ export const createTicket = async (req , res) => {
             ticket: newTicket
         })
     } catch (error) {
-        console.error("Error creating a ticket: " , error.message);
+        console.error("Error creating ticket: " , error.message);
+        return res.status(500).json({ message: "Internal Server Error" });
+    }
+}
+
+export const getTickets = async (req , res) => {
+    try {
+        const user = req.user;
+        let tickets = [];
+        if(user.role !== "user") {
+            tickets = Ticket.find({})
+                            .populate("assignedTo" , ["email" , "_id"])
+                            .sort({ createdAt: -1 });
+        } else {
+            tickets = Ticket.find({ createdBy: user._id })
+                            .select("title description status createdAt")
+                            .sort({ createdAt: -1 })
+        }
+        return res.status(200).json({ tickets });
+    } catch (error) {
+        console.error("Error fetching ticket: " , error.message);
         return res.status(500).json({ message: "Internal Server Error" });
     }
 }
