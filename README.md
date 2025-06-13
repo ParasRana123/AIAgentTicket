@@ -1,3 +1,10 @@
 ## AI Ticket Assistant
 
 Welcome to the AI-Powered Ticket Management System! This project is a web application that uses AI to automatically categorize, prioritize, and assign support tickets to the most appropriate moderators.
+
+## Features
+
+- Automatic ticket categorization
+- Smart priority assignment
+- Skill-based moderator matching
+- AI-generated helpful notes for moderators
